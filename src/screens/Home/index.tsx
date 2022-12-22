@@ -13,14 +13,16 @@ import { styles } from './styles';
 import { Participant } from '../../components/Participant';
 
 export default function Home() {
-  const [participants, setParticipants] = useState(['Yan']);
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [participantName, setParticipantName] = useState('');
 
   function handleParticipantAdd(){
-    if(participants.includes('Yasmim')){
-      return Alert.alert('Já existe!', 'Esse nome já existe.')
+    if(participants.includes(participantName)){
+      return Alert.alert('Já existe!', 'Alguém já possui esse nome cadastrado.')
     }
 
-    setParticipants(prevState => [...prevState, 'Yasmim']);
+    setParticipants(prevState => [...prevState, participantName]);
+    setParticipantName('');
   };
 
   function handleParticipantRemove(name: string){
@@ -51,6 +53,8 @@ export default function Home() {
           style={styles.input}
           placeholder='Nome'
           placeholderTextColor='#6B6B6B'
+          onChangeText={setParticipantName}
+          value={participantName}
         />
 
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
@@ -73,7 +77,7 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
           <Text style={styles.listEmptyText}>
-            Ninguém chegou ainda.
+            Ainda não há ninguém, adicione!
           </Text>
         )}
       />
